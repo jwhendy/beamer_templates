@@ -1,0 +1,291 @@
+% KU-LIFE presentation theme for beamer
+%
+% Morten Larsen <ml@life.ku.dk>, 2010
+% http://matdat.life.ku.dk/LaTeX/Frederiksberg
+%
+% Changelog:
+%
+% Version 1.0:
+%   First public version.
+% Version 1.0.1 (bugfix):
+%   Fixed top bar position on title page with "simple" style when \parskip
+%   is non-zero.
+% Version 1.0.2 (graphics fix):
+%   Fixed graphic files for university and faculty names for top bar
+%   to have same height and baseline (and not crop any text).
+% Version 1.1:
+%   Better water mark code, allowing water mark to work for any background
+%   colour.
+% Version 2.0:
+%   Support for other faculties than LIFE (specifically: NAT, SUND and KU).
+%   Also improved flexibility, allowing a text header and changing of the
+%   title page images.
+% Version 2.0.1:
+%   Fixed bug preventing selecting the standard style title page with
+%   style=standard when a unit file specified another title page style.
+%   Also introduced fnolabel option for footer (and main theme).
+% Version 2.0.2 (bugfix):
+%   Fixed bug which made LaTeX choke when putting the standard title page
+%   in a non-plain frame. Also made the routines generating the header
+%   bar text robust to trailing spaces in the "institute" text.
+%   Fixed bug in interaction between style= option and unit files.
+
+\ProvidesPackage{beamerthemeFrederiksberg}[2010/08/17]
+
+\def\FrederiksbergVersion{2.0.2}
+
+% Hooks for unit/course packages to tie into
+\def\Frederiksberg@AfterOptionsDefinition{}
+\def\Frederiksberg@AfterOptionsProcessing{}
+\def\Frederiksberg@BeforePackages{}
+\def\Frederiksberg@AfterPackages{}
+
+% Pre-process options for unit and course only
+\def\Frederiksberg@loadpackages{} 
+% unit (if any)
+\DeclareOptionBeamer{unit}[]{\g@addto@macro\Frederiksberg@loadpackages{%
+  \RequirePackage{FrederiksbergUnit#1}
+}}
+\DeclareOptionBeamer{course}[]{\g@addto@macro\Frederiksberg@loadpackages{%
+  \RequirePackage{FrederiksbergCourse#1}
+}}
+% make initial processing silent
+\let\KU@orgkverrx\KV@errx
+\def\KV@errx#1{}%
+\ifx\KU@ProcessOptionsBeamer\KU@undefined
+  \ProcessOptionsBeamer
+\else
+  \KU@ProcessOptionsBeamer
+\fi
+\let\KV@errx\KU@orgkverrx
+% load packages, if any were defined
+\Frederiksberg@loadpackages
+
+% Here we start the theme proper
+\RequirePackage{KUcommon}
+\KU@needlogoline
+\KU@needwmark
+
+\newif\ifFrederiksberg@wmark
+\Frederiksberg@wmarkfalse
+\newif\ifFrederiksberg@hasfootstyle
+\Frederiksberg@hasfootstylefalse
+\newif\ifFrederiksberg@haslogoplace
+\Frederiksberg@haslogoplacefalse
+\newif\ifFrederiksberg@sidebar
+\Frederiksberg@sidebarfalse
+\newif\ifFrederiksberg@navsymbols
+\Frederiksberg@navsymbolsfalse
+\newif\ifFrederiksberg@frames
+\Frederiksberg@framestrue
+
+% now unit and course should do nothing
+\DeclareOptionBeamer{unit}[]{}
+\DeclareOptionBeamer{course}[]{}
+% overall style
+\def\Frederiksberg@style{not@set}
+\DeclareOptionBeamer{style}[standard]{\def\Frederiksberg@style{#1}}
+\DeclareOptionBeamer{dogma}[]{
+  \ExecuteOptionsBeamer{greytext}
+  \ExecuteOptionsBeamer{totalframes=hide}
+}
+% faculty and language
+\DeclareOptionBeamer{dk}{\PassOptionsToPackage{dk}{beamerthemeKUsetup}}
+\DeclareOptionBeamer{uk}{\PassOptionsToPackage{uk}{beamerthemeKUsetup}}
+\DeclareOptionBeamer{life}{\PassOptionsToPackage{life}{beamerthemeKUsetup}}
+\DeclareOptionBeamer{nat}{\PassOptionsToPackage{nat}{beamerthemeKUsetup}}
+\DeclareOptionBeamer{sund}{\PassOptionsToPackage{sund}{beamerthemeKUsetup}}
+\DeclareOptionBeamer{ku}{\PassOptionsToPackage{ku}{beamerthemeKUsetup}}
+% logo and line
+\DeclareOptionBeamer{logostyle}[auto]{\AtBeginDocument{\KUlogostyle{#1}}}
+\DeclareOptionBeamer{logoline}[auto]{\AtBeginDocument{\KUlogoline{#1}}}
+% footer
+\DeclareOptionBeamer{logoplace}[right]{
+  \Frederiksberg@haslogoplacetrue
+  \AtBeginDocument{\KUlogoplace{#1}}
+}
+\DeclareOptionBeamer{footstyle}[high]{
+  \Frederiksberg@hasfootstyletrue
+  \PassOptionsToPackage{style=#1}{beamerouterthemeKUfoot}
+}
+\DeclareOptionBeamer{totalframes}[show]{
+  \PassOptionsToPackage{totalframes=#1}{beamerouterthemeKUfoot}
+}
+\DeclareOptionBeamer{nologo}{
+  \PassOptionsToPackage{nologo}{beamerouterthemeKUfoot}
+}
+\DeclareOptionBeamer{noline}{
+  \PassOptionsToPackage{noline}{beamerouterthemeKUfoot}
+}
+\DeclareOptionBeamer{footsep}[{ --- }]{
+  \PassOptionsToPackage{sep=#1}{beamerouterthemeKUfoot}
+}
+\DeclareOptionBeamer{fnolabel}{
+  \PassOptionsToPackage{fnolabel=#1}{beamerouterthemeKUfoot}
+}
+\DeclareOptionBeamer{logoleft}{
+  \PassOptionsToPackage{logoplace=left}{beamerouterthemeKUfoot}
+  \Frederiksberg@haslogoplacetrue
+  \@latex@warning{Frederiksberg option logoleft has been deprecated, use logoplace=left}
+}
+\DeclareOptionBeamer{logoright}{
+  \PassOptionsToPackage{logoplace=right}{beamerouterthemeKUfoot}
+  \Frederiksberg@haslogoplacetrue
+  \@latex@warning{Frederiksberg option logoright has been deprecated, use logoplace=right}
+}
+% header
+\DeclareOptionBeamer{headstyle}[]{
+  \PassOptionsToPackage{style=#1}{beamerouterthemeKUhead}
+}
+\DeclareOptionBeamer{ugm}{\PassOptionsToPackage{ugm}{beamerouterthemeKUhead}}
+% wmark
+\DeclareOptionBeamer{wmark}{\Frederiksberg@wmarktrue}
+\DeclareOptionBeamer{wmarkvariant}[auto]{\AtBeginDocument{\KUwmarkvariant{#1}}}
+\DeclareOptionBeamer{wmarkcolour}[auto]{\AtBeginDocument{\KUwmarkcolour{#1}}}
+\DeclareOptionBeamer{wmarkcolor}[auto]{\ExecuteOptionsBeamer{wmarkcolour=#1}}
+% title page
+\DeclareOptionBeamer{TPomitframeno}{
+  \PassOptionsToPackage{omitframeno}{beamerinnerthemeKUtitlepage}
+}
+\DeclareOptionBeamer{TPlrimage}[]{
+  \PassOptionsToPackage{lrimage=#1}{beamerinnerthemeKUtitlepage}
+}
+\DeclareOptionBeamer{TPrawlrimage}[]{
+  \PassOptionsToPackage{rawlrimage=#1}{beamerinnerthemeKUtitlepage}
+}
+\DeclareOptionBeamer{TPulimage}[]{
+  \PassOptionsToPackage{ulimage=#1}{beamerinnerthemeKUtitlepage}
+}
+% frame title
+\DeclareOptionBeamer{FTbeamer}{
+  \PassOptionsToPackage{beamer}{beamerouterthemeKUframetitle}
+}
+\DeclareOptionBeamer{FTalign}[left]{
+  \PassOptionsToPackage{align=#1}{beamerouterthemeKUframetitle}
+}
+% margins
+\DeclareOptionBeamer{wide}{
+  \PassOptionsToPackage{wide}{beamerouterthemeKUmargins}
+}
+\DeclareOptionBeamer{narrow}{
+  \PassOptionsToPackage{narrow}{beamerouterthemeKUmargins}
+}
+% sidebar
+\DeclareOptionBeamer{sidebar}[.2\paperwidth]{
+  \Frederiksberg@sidebartrue
+  \PassOptionsToPackage{width=#1}{beamerouterthemeKUsidebar}
+  \ifFrederiksberg@haslogoplace\else
+    \ExecuteOptionsBeamer{logoplace=left}
+  \fi
+}
+\DeclareOptionBeamer{hideothersubsections}{
+  \PassOptionsToPackage{hideothersubsections}{beamerouterthemeKUsidebar}
+}
+\DeclareOptionBeamer{hideallsubsections}{
+  \PassOptionsToPackage{hideallsubsections}{beamerouterthemeKUsidebar}
+}
+% colour
+\DeclareOptionBeamer{colourful}[]{
+  \PassOptionsToPackage{colourful}{beamercolorthemeKUhorse}
+}
+\DeclareOptionBeamer{colorful}[]{\ExecuteOptionsBeamer{colourful}}
+\DeclareOptionBeamer{greytext}[]{
+  \PassOptionsToPackage{greytext}{beamercolorthemeKUhorse}
+}
+\DeclareOptionBeamer{graytext}[]{\ExecuteOptionsBeamer{greytext}}
+\DeclareOptionBeamer{greyfoot}[]{
+  \PassOptionsToPackage{greyfoot}{beamercolorthemeKUhorse}
+}
+\DeclareOptionBeamer{grayfoot}[]{\ExecuteOptionsBeamer{greyfoot}}
+\DeclareOptionBeamer{greyauthor}[]{
+  \PassOptionsToPackage{greyauthor}{beamercolorthemeKUhorse}
+}
+\DeclareOptionBeamer{grayauthor}[]{\ExecuteOptionsBeamer{greyauthor}}
+\DeclareOptionBeamer{greybg}[]{
+  \PassOptionsToPackage{greybg}{beamercolorthemeKUhorse}
+}
+\DeclareOptionBeamer{graybg}[]{\ExecuteOptionsBeamer{greybg}}
+% fonts
+\DeclareOptionBeamer{seriftitles}{
+  \PassOptionsToPackage{seriftitles}{beamerfontthemeKU}
+}
+% navsymbols
+\DeclareOptionBeamer{navsymbols}{\Frederiksberg@navsymbolstrue}
+% frame handouts?
+\DeclareOptionBeamer{noframes}{\Frederiksberg@framesfalse}
+
+% hook for unit and course packages:
+\Frederiksberg@AfterOptionsDefinition
+
+\ProcessOptionsBeamer
+
+% hook for unit and course packages:
+\Frederiksberg@AfterOptionsProcessing
+
+\mode<presentation>
+
+% overall styles
+\def\KU@tmp{simple}\ifx\Frederiksberg@style\KU@tmp
+  \PassOptionsToPackage{style=simple}{beamerinnerthemeKUtitlepage}
+  \ifFrederiksberg@haslogoplace\else
+    \PassOptionsToPackage{logoplace=left}{beamerouterthemeKUfoot}
+  \fi
+\else\def\KU@tmp{clean}\ifx\Frederiksberg@style\KU@tmp
+  \PassOptionsToPackage{style=clean}{beamerinnerthemeKUtitlepage}
+  \ifFrederiksberg@haslogoplace\else
+    \PassOptionsToPackage{logoplace=left}{beamerouterthemeKUfoot}
+  \fi
+\else % standard or alternative style
+  \ifFrederiksberg@hasfootstyle\else
+    \PassOptionsToPackage{style=high}{beamerouterthemeKUfoot}
+  \fi
+  \def\KU@tmp{alternative}\ifx\Frederiksberg@style\KU@tmp
+    \PassOptionsToPackage{style=alternative}{beamerinnerthemeKUtitlepage}
+  \else\def\KU@tmp{standard}\ifx\Frederiksberg@style\KU@tmp
+    \PassOptionsToPackage{style=standard}{beamerinnerthemeKUtitlepage}
+  \else\def\KU@tmp{not@set}\ifx\Frederiksberg@style\KU@tmp
+     \def\Frederiksberg@style{standard}
+  \else
+    \@latex@error{Unknown Frederiksberg main style \Frederiksberg@style}
+  \fi\fi\fi
+\fi\fi
+
+% hook for unit and course packages:
+\Frederiksberg@BeforePackages
+
+% Now load all the subthemes:
+% Basic setup
+\usetheme{KUsetup}
+% colours and fonts
+\usecolortheme{KUhorse}
+\usefonttheme{KU}
+% outer themes
+\ifFrederiksberg@sidebar
+  \useoutertheme{KUsidebar}
+\else
+  \useoutertheme{KUmargins}
+\fi
+\useoutertheme{KUhead}
+\useoutertheme{KUfoot}
+\useoutertheme{KUframetitle}
+\ifFrederiksberg@wmark
+  \useoutertheme{KUwmark}
+\fi
+\ifFrederiksberg@navsymbols
+  \useoutertheme{KUnavsymbols}
+\fi
+% inner themes
+\useinnertheme{rounded}
+\useinnertheme{circles}
+\useinnertheme{KUtitlepage}
+% misc extras
+\useinnertheme{scaledbuttons}
+\ifFrederiksberg@frames
+  \useoutertheme[mode=smart]{framehandouts}
+\fi
+
+% hook for unit and course packages:
+\Frederiksberg@AfterPackages
+
+\mode
+<all>
