@@ -1,0 +1,126 @@
+% \LaTeX beamer theme for 3M
+% Aims to match the look of 3M PowerPoint templates
+% For the theme to work:
+% -- find the PowerPoint montage template desired
+% -- print it as a PDF with the montage and nothing else
+% -- save it as background.pdf in this theme folder
+% -- do the same for the sidebar background for normal slides
+% -- save it as sidebar.pdf in this theme folder
+%
+% Author: John Henderson | jhenderson@mmm.com
+% Date: 01 Sepbember 2010
+
+%%%%% needed packages
+\ProvidesPackage{beamertheme3M}
+\RequirePackage{pgf}
+\RequirePackage{changepage}
+%%%%% end needed packages
+
+\mode<presentation>
+
+%%%%% disable navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+%%%%% set overall options
+\definecolor{bluish}{rgb}{0.2,0.2,0.7}
+\setbeamerfont{frametitle}{series=\mdseries,size=\LARGE}
+\setbeamerfont{title}{series=\mdseries,size=\LARGE}
+\setbeamerfont{headline}{series=\mdseries,size=\small}
+\setbeamerfont{author}{series=\mdseries,size=\large}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\useinnertheme{rectangles}
+\usecolortheme{orchid}
+%%%%% overall options
+
+
+%%%%% user variables
+\institute{CRPL Nonwovens}
+%%%%% end user variables
+
+
+%%%%% frame
+%\setbeamercolor{frametitle}{fg=black}
+\setbeamertemplate{frametitle}{
+
+  \begin{pgfpicture}{0}{9.0cm}{12.8cm}{9.6cm}
+    \pgfputat{\pgfxy(-0.38,9.15)}{\pgfbox[left,base]{\insertframetitle}}%
+  \end{pgfpicture}
+
+}
+%%%%% end frame
+
+ 
+%%%%% graphical title page with montage
+\setbeamercolor{title page}{fg=bluish}
+\setbeamertemplate{title page}{
+
+  \begin{adjustwidth}{-1cm}{-1cm}% get rid of title page margin
+
+    \begin{pgfpicture}{0}{0}{12.8cm}{9.6cm}% make box to fill whole frame
+      
+      \pgfputat{\pgfxy(0,0)}{\pgfimage[width=\paperwidth,height=\paperheight]{background}}% bg
+      \pgfputat{\pgfxy(0.62,9.28)}{\pgfbox[left,base]{\LARGE{\inserttitle}}}% title
+%      \pgfputat{\pgfxy(0.92,8.2)}{\pgfbox[left,base]{\color{black}\large{\insertauthor}}}% author
+%      \pgfputat{\pgfxy(0.92,7.7)}{\pgfbox[left,center]{\large{\insertinstitute}}}% date
+      \pgfputat{\pgfxy(0.6,8.5)}{\pgfbox[left,center]{\color{black}\large{
+            \begin{tabular}{l|l}
+              \hspace  &  \insertauthor  \\
+              \hspace  &  \emph{\insertinstitute}  \\
+            \end{tabular}
+      }}}
+
+%%% can be tinkered with for gradient line under title
+%      \pgfdeclarehorizontalshading{myshading}{0.5mm}% line under title
+%         {color(0cm)=(black); color(3cm)=(black); color(8cm)=(white)}%
+%      \pgfputat{\pgfxy(0.5,8.6)}{\pgfuseshading{myshading}}% end of line under title
+%%% end gradient line under title
+ 
+    \end{pgfpicture}%
+
+  \end{adjustwidth}%
+
+}
+%%%%% end graphical title page
+
+
+%%%%% headline with division
+\setbeamercolor{headline}{fg=gray}
+\setbeamertemplate{headline}{
+
+%%% no division
+  \begin{pgfpicture}{0}{9.0cm}{12.8cm}{9.6cm}
+%    \pgfputat{\pgfxy(0.64,9.0)}{\pgfbox[left,base]{CRPL Nonwovens}}%
+  \end{pgfpicture}
+%%% end no division
+
+%%% with division header
+%  \begin{pgfpicture}{0}{9.0cm}{12.8cm}{9.6cm}
+%    \pgfputat{\pgfxy(0.64,9.0)}{\pgfbox[left,base]{CRPL Nonwovens}}%
+%  \end{pgfpicture}
+%%% end division
+
+}
+%%%%% end headline
+
+
+%%%%% footline (c) and 3M logo
+\setbeamercolor{footline}{fg=gray}
+\setbeamertemplate{footline}{
+  \leavevmode\tiny%
+  \begin{pgfpicture}{0}{0.25}{12.3cm}{0.65cm}
+    \pgfputat{\pgfxy(0.64,0.25)}{\pgfbox[left,base]{\copyright 3M
+        2010. All Rights Reserved.}}% 
+    \pgfputat{\pgfxy(12.55,0.25)}{\pgfbox[right,bottom]{\pgfimage[height=0.4cm]{3M-logo}}}%
+  \end{pgfpicture}
+}
+%%%%% end footline
+
+
+%%%%% set sidebar as background for other frames
+\setbeamertemplate{background}{
+    \includegraphics[width=\paperwidth,height=\paperheight]{sidebar}
+}
+%%%%%
+
+\mode
+<all>
