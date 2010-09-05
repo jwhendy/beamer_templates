@@ -22,6 +22,7 @@
 \setbeamertemplate{navigation symbols}{}
 
 %%%%% set overall options
+\setbeamersize{text margin right=0.5cm}
 \definecolor{bluish}{rgb}{0.2,0.2,0.7}
 \setbeamerfont{frametitle}{series=\mdseries,size=\LARGE}
 \setbeamerfont{title}{series=\mdseries,size=\LARGE}
@@ -31,10 +32,6 @@
 \useinnertheme{rectangles}
 \usecolortheme{orchid}
 %%%%% overall options
-
-\setbeamertemplate{itemize}{
-\setlength{\itemsep}{3cm}
-}
 
 
 
@@ -63,7 +60,7 @@
 
     \begin{pgfpicture}{0}{0}{12.8cm}{9.6cm}% make box to fill whole frame
       
-      \pgfputat{\pgfxy(0,1)}{\pgfimage[width=\paperwidth,height=\paperheight]{background}}% bg
+      \pgfputat{\pgfxy(0,0.89)}{\pgfimage[width=\paperwidth,height=\paperheight]{background}}% bg
       \pgfputat{\pgfxy(0.62,9.28)}{\pgfbox[left,base]{\color{black}\LARGE{\inserttitle}}}% title
 %      \pgfputat{\pgfxy(0.92,8.2)}{\pgfbox[left,base]{\color{black}\large{\insertauthor}}}% author
 %      \pgfputat{\pgfxy(0.92,7.7)}{\pgfbox[left,center]{\large{\insertinstitute}}}% date
