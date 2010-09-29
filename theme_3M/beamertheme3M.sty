@@ -48,7 +48,7 @@
 
     \begin{pgfpicture}{0}{0}{12.8cm}{9.6cm}% make box to fill whole frame
       
-      \pgfputat{\pgfxy(0,0.89)}{\pgfimage[width=\paperwidth,height=\paperheight]{background}}% bg
+      \pgfputat{\pgfxy(0,0.89)}{\pgfimage[width=\paperwidth,height=\paperheight]{titlePage}}% bg
       \pgfputat{\pgfxy(0.62,9.05)}{\pgfbox[left,base]{\color{black}\LARGE{\inserttitle
       \\ \insertsubtitle}}}% title
 %      \pgfputat{\pgfxy(0.92,8.2)}{\pgfbox[left,base]{\color{black}\large{\insertauthor}}}% author
@@ -121,7 +121,7 @@
 
 %%%%% set sidebar as background for other frames
 \setbeamertemplate{background}{
-    \includegraphics[width=\paperwidth,height=\paperheight]{sidebar}
+    \includegraphics[width=\paperwidth,height=\paperheight]{slides}
 }
 %%%%%
 
