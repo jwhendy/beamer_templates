@@ -111,8 +111,16 @@
 \setbeamertemplate{footline}{
   \leavevmode\tiny%
   \begin{pgfpicture}{0}{0.25}{12.3cm}{0.65cm}
-    \pgfputat{\pgfxy(0.64,0.25)}{\pgfbox[left,base]{\copyright 3M
-        2010. All Rights Reserved.}}% 
+
+%%% Confidential
+    \pgfputat{\pgfxy(0.64,0.25)}{\pgfbox[left,base]{3M Confidential}}% 
+%%%
+
+%%% All Rights Reserved
+%    \pgfputat{\pgfxy(0.64,0.25)}{\pgfbox[left,base]{\copyright 3M
+%        2010. All Rights Reserved.}}% 
+%%%
+
     \pgfputat{\pgfxy(12.55,0.25)}{\pgfbox[right,bottom]{\pgfimage[height=0.4cm]{3M-logo}}}%
   \end{pgfpicture}
 }
