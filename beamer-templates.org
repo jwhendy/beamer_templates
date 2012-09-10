@@ -1,0 +1,10 @@
+* Nice beamer templates
+- [[http://www.matdat.life.ku.dk/LaTeX/Frederiksberg/][Frederiksberg]]
+- [[http://www.ist.tugraz.at/staff/weiglhofer/misc/tugbeamer/][Graz]]
+- [[https://github.com/bbatsov/beamer-torino-theme][Torino]]
+- [[https://github.com/nschloe/ua-beamer][UA]]
+- [[][UEA]]
+- [[http://www.math.umbc.edu/~rouben/beamer/][UMBC]]
+
+
+List of a bunch of somewhat 'non-standard' themes [[http://latex.simon04.net/][HERE]].
